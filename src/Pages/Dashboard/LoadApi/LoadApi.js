@@ -4,7 +4,7 @@ const LoadApi = () => {
     const [api, setApi] = useState([])
     useEffect(() => {
 
-        const url = `http://localhost:5000/api`
+        const url = `https://salty-shelf-65784.herokuapp.com/api`
         console.log(url)
         fetch(url)
             .then(res => res.json())
@@ -13,13 +13,12 @@ const LoadApi = () => {
     }, [api])
 
 
-
     const handleDelete = id => {
         console.log(id)
         const proceed = window.confirm('Are you sure ?')
 
         if (proceed) {
-            const url = `http://localhost:5000/booking/${id}`
+            const url = `https://salty-shelf-65784.herokuapp.com/api/${id}`
             console.log(url)
             fetch(url, {
                 method: "DELETE",
@@ -37,28 +36,35 @@ const LoadApi = () => {
 
     return (
         <div>
-        <h3>Total api : {api.length}</h3>
-        <div class="overflow-x-auto">
-            <table class="table table-zebra w-full">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Title</th>
-                        <th>Body</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {api.map((data, index) => <tr>
-                        <th>{index + 1}</th>
-                        <th>{data.title}</th>
-                        <td>{data.body}</td>
-                        <td onClick={() => handleDelete(data._id)}> ❌ </td>
-                    </tr>)}
-                </tbody>
-            </table>
+            <h3>Total api : {api.length}</h3>
+
+<div>
+    <input type="text" />
+    
+</div>
+
+            <div class="overflow-x-auto">
+                <table class="table table-zebra w-full">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {api.map((data, index) =>
+                            <tr>
+                                <th>{index + 1}</th>
+                                <th>{data.name}</th>
+                                <td>{data.email}</td>
+                                <td onClick={() => handleDelete(data._id)}> ❌ </td>
+                            </tr>)}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
     );
 };
 

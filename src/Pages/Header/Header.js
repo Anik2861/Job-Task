@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
     const menuItems = <>
-        <li><Link to="/about" >About</Link></li>
         {
             <>
+                
+                <li><Link to="/" >Home</Link></li>
                 <li><Link to="/dashboard" >Dashboard</Link></li>
-                <li><Link to="/" >Dashboards</Link></li>
-                <li><Link to="/" >Dashboarda</Link></li>
             </>
         }
     </>
