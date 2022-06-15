@@ -49,9 +49,18 @@ const LoadApi = () => {
     //     const match = api.filter(a => a.name.includes(searchText))
     //     setSearchResult(match)
     // }
-    const handleFilter = () => {
-        const filterData = searchResult.filter()
+    const handleFilter = e => {
+        const filterData = e.target.value
+        if (filterData === "filter") {
+            const result = searchResult.filter(f => f.company.catchPhrase.length > 35)
+
+            setSearchResult(result)
+        }
+        else {
+            return
+        }
     }
+
     return (
         <div>
             <h3>Total api : {searchResult.length}</h3>
@@ -63,7 +72,9 @@ const LoadApi = () => {
 
             </div>
 
-
+            <div>
+                <button onClick={handleFilter} className='btn btn-outline' value={'filter'}>Age more than 35</button>
+            </div>
 
             <div class="overflow-x-auto">
                 <table class="table table-zebra w-full">
