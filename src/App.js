@@ -20,7 +20,7 @@ function App() {
           <RequireAuth>
             <Dashboard></Dashboard>
           </RequireAuth>}>
-          <Route index element={<AddApi></AddApi>}></Route>
+          <Route path='addApi' element={<AddApi></AddApi>}></Route>
           <Route path='loadApi' element={<LoadApi></LoadApi>}></Route>
        
         </Route>

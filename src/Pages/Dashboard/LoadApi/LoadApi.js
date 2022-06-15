@@ -3,8 +3,9 @@ import './LoadApi.css'
 
 
 const LoadApi = () => {
-    const [api, setApi] = useState([])
-    const [searchResult, setSearchResult] = useState(api)
+    // const [api, setApi] = useState([])
+    const [searchText, setSearchText] = useState('')
+    const [searchResult, setSearchResult] = useState([])
 
     useEffect(() => {
 
@@ -12,9 +13,12 @@ const LoadApi = () => {
         console.log(url)
         fetch(url)
             .then(res => res.json())
-            .then(data => setApi(data))
+            .then(data => {
+                const match = data.filter(d => d.name.toLowerCase().includes(searchText.toLocaleLowerCase()))
+                setSearchResult(match)
+            })
 
-    }, [api])
+    }, [searchText])
 
 
     const handleDelete = id => {
@@ -31,27 +35,35 @@ const LoadApi = () => {
                 .then(res => res.json())
                 .then(data => {
                     console.log(data)
-                    const remaining = api.filter(p => p._id !== id)
-                    setApi(remaining)
+                    const remaining = searchResult.filter(p => p._id !== id)
+                    setSearchResult(remaining)
                 })
         }
     }
     const handleSearchChange = event => {
         const searchText = event.target.value
-        const match = api.filter(a => a.name.includes(searchText))
-        setSearchResult(match)
+        setSearchText(searchText)
     }
-
+    // const handleSearchChange = event => {
+    //     const searchText = event.target.value
+    //     const match = api.filter(a => a.name.includes(searchText))
+    //     setSearchResult(match)
+    // }
+    const handleFilter = () => {
+        const filterData = searchResult.filter()
+    }
     return (
         <div>
-            <h3>Total api : {api.length}</h3>
+            <h3>Total api : {searchResult.length}</h3>
 
             <div>
-                <input 
-                className="input input-bordered w-full max-w-xs my-6 "
-                onChange={handleSearchChange} placeholder='Search Name' type="text" />
+                <input
+                    className="input input-bordered w-full max-w-xs my-6 "
+                    onChange={handleSearchChange} placeholder='Search Name' type="text" />
 
             </div>
+
+
 
             <div class="overflow-x-auto">
                 <table class="table table-zebra w-full">
@@ -60,6 +72,7 @@ const LoadApi = () => {
                             <th></th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Age</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
@@ -69,6 +82,7 @@ const LoadApi = () => {
                                 <th>{index + 1}</th>
                                 <th>{data.name}</th>
                                 <td>{data.email}</td>
+                                <th>{data.company.catchPhrase.length}</th>
                                 <td onClick={() => handleDelete(data._id)}> ❌ </td>
                             </tr>)}
                     </tbody>
