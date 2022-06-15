@@ -9,6 +9,7 @@ import Login from './Pages/Form/Login/Login';
 import Register from './Pages/Form/Register/Register';
 import LoadApi from './Pages/Dashboard/LoadApi/LoadApi';
 import Home from './Pages/Home/Home';
+import About from './Pages/About/About';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path='loadApi' element={<LoadApi></LoadApi>}></Route>
        
         </Route>
+        <Route path='/about' element={<About></About>}></Route>
         <Route path='/login' element={<Login></Login>}></Route>
         <Route path='/register' element={<Register></Register>} ></Route>
       </Routes>
