@@ -37,27 +37,22 @@ const LoadApi = () => {
 
     return (
         <div>
-        <h3>Total Orders : {api.length}</h3>
+        <h3>Total api : {api.length}</h3>
         <div class="overflow-x-auto">
             <table class="table table-zebra w-full">
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Name</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Treatment</th>
-                        <th>Delete Order</th>
-                        <th>Paid Order</th>
+                        <th>Title</th>
+                        <th>Body</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
                     {api.map((data, index) => <tr>
                         <th>{index + 1}</th>
-                        <th>{data.userName}</th>
-                        <td>{data.date}</td>
-                        <td>{data.slot}</td>
-                        <td>{data.treatment}</td>
+                        <th>{data.title}</th>
+                        <td>{data.body}</td>
                         <td onClick={() => handleDelete(data._id)}> ❌ </td>
                     </tr>)}
                 </tbody>
