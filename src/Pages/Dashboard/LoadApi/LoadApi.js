@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import './LoadApi.css'
+
 
 const LoadApi = () => {
     const [api, setApi] = useState([])
+    const [searchResult, setSearchResult] = useState(api)
+
     useEffect(() => {
 
         const url = `https://salty-shelf-65784.herokuapp.com/api`
@@ -32,16 +36,22 @@ const LoadApi = () => {
                 })
         }
     }
-
+    const handleSearchChange = event => {
+        const searchText = event.target.value
+        const match = api.filter(a => a.name.includes(searchText))
+        setSearchResult(match)
+    }
 
     return (
         <div>
             <h3>Total api : {api.length}</h3>
 
-<div>
-    <input type="text" />
-    
-</div>
+            <div>
+                <input 
+                className="input input-bordered w-full max-w-xs my-6 "
+                onChange={handleSearchChange} placeholder='Search Name' type="text" />
+
+            </div>
 
             <div class="overflow-x-auto">
                 <table class="table table-zebra w-full">
@@ -54,7 +64,7 @@ const LoadApi = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {api.map((data, index) =>
+                        {searchResult.map((data, index) =>
                             <tr>
                                 <th>{index + 1}</th>
                                 <th>{data.name}</th>
