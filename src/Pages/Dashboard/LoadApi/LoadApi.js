@@ -3,22 +3,20 @@ import './LoadApi.css'
 
 
 const LoadApi = () => {
-    // const [api, setApi] = useState([])
-    const [searchText, setSearchText] = useState('')
+    const [data, setData] = useState([])
     const [searchResult, setSearchResult] = useState([])
+    const [sortingData, setSortingData] = useState("ASC")
 
     useEffect(() => {
 
-        const url = `https://salty-shelf-65784.herokuapp.com/api`
+        const url = `http://localhost:5000/allUser`
         console.log(url)
         fetch(url)
             .then(res => res.json())
             .then(data => {
-                const match = data.filter(d => d.name.toLowerCase().includes(searchText.toLocaleLowerCase()))
-                setSearchResult(match)
+                setData(data)
             })
-
-    }, [searchText])
+    }, [])
 
 
     const handleDelete = id => {
@@ -26,8 +24,7 @@ const LoadApi = () => {
         const proceed = window.confirm('Are you sure ?')
 
         if (proceed) {
-            const url = `https://salty-shelf-65784.herokuapp.com/api/${id}`
-            console.log(url)
+            const url = `http://localhost:5000/allUser/${id}`
             fetch(url, {
                 method: "DELETE",
                 body: JSON.stringify({ id })
@@ -36,65 +33,54 @@ const LoadApi = () => {
                 .then(data => {
                     console.log(data)
                     const remaining = searchResult.filter(p => p._id !== id)
-                    setSearchResult(remaining)
+                    setData(remaining)
                 })
         }
     }
-    const handleSearchChange = event => {
-        const searchText = event.target.value
-        setSearchText(searchText)
-    }
-    // const handleSearchChange = event => {
-    //     const searchText = event.target.value
-    //     const match = api.filter(a => a.name.includes(searchText))
-    //     setSearchResult(match)
-    // }
-    const handleFilter = e => {
-        const filterData = e.target.value
-        if (filterData === "filter") {
-            const result = searchResult.filter(f => f.company.catchPhrase.length > 35)
 
-            setSearchResult(result)
+    const sorting = (data) => {
+        if (sortingData === "ASC") {
+            const sort = [...searchResult].sort((a, b) =>
+                a[data].toLocaleLowerCase() > b[data].toLocaleLowerCase() ? 1 : -1
+            )
+            setSearchResult(sort)
+            setSortingData("DSC")
         }
-        else {
-            return
+        if (sortingData === "DSC") {
+            const sort = [...searchResult].sort((a, b) =>
+                a[data].toLocaleLowerCase() < b[data].toLocaleLowerCase() ? 1 : -1
+            )
+            setSearchResult(sort)
+            setSortingData("DSC")
         }
     }
 
     return (
         <div>
-            <h3>Total api : {searchResult.length}</h3>
-
-            <div>
-                <input
-                    className="input input-bordered w-full max-w-xs my-6 "
-                    onChange={handleSearchChange} placeholder='Search Name' type="text" />
-
-            </div>
-
-            <div>
-                <button onClick={handleFilter} className='btn btn-outline' value={'filter'}>Age more than 35</button>
-            </div>
+            <h3>Total api : {data.length}</h3>
 
             <div class="overflow-x-auto">
                 <table class="table table-zebra w-full">
                     <thead>
                         <tr>
                             <th></th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Age</th>
+                            <th onClick={() => sorting("name")}>Name (sort)</th>
+                            <th onClick={() => sorting("email")}>Email(sort)</th>
+                            <th>Phone</th>
+                            <th>Update</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
+
                     <tbody>
-                        {searchResult.map((data, index) =>
+                        {data.map((d, index) =>
                             <tr>
                                 <th>{index + 1}</th>
-                                <th>{data.name}</th>
-                                <td>{data.email}</td>
-                                <th>{data.company.catchPhrase.length}</th>
-                                <td onClick={() => handleDelete(data._id)}> ❌ </td>
+                                <th>{d.name}</th>
+                                <td>{d.email}</td>
+                                <th>{d.phone}</th>
+                                <th>Update</th>
+                                <td onClick={() => handleDelete(d._id)}> ❌ </td>
                             </tr>)}
                     </tbody>
                 </table>
