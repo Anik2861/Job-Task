@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LoadApi.css'
 
 
@@ -6,14 +7,14 @@ const LoadApi = () => {
     const [data, setData] = useState([])
     const [searchResult, setSearchResult] = useState([])
     const [sortingData, setSortingData] = useState("ASC")
+    const navigate = useNavigate()
 
     useEffect(() => {
-
         const url = `http://localhost:5000/allUser`
-        console.log(url)
         fetch(url)
             .then(res => res.json())
             .then(data => {
+                console.log("bal",data)
                 setData(data)
             })
     }, [])
@@ -26,17 +27,21 @@ const LoadApi = () => {
         if (proceed) {
             const url = `http://localhost:5000/deleteUser/${id}`
             fetch(url, {
-                method: "DELETE",
-                body: JSON.stringify({ id })
+                method: "DELETE"
             })
                 .then(res => res.json())
                 .then(data => {
                     console.log(data)
                     const remaining = searchResult.filter(p => p._id !== id)
                     setData(remaining)
-                },[data])
+                }, [data])
         }
     }
+
+    const handleEdit = id => {
+        navigate(`/updateUser/${id}`)
+    }
+
 
     const sorting = (data) => {
         if (sortingData === "ASC") {
@@ -81,7 +86,7 @@ const LoadApi = () => {
                                 <th>{d.phone}</th>
                                 <td>{d.email}</td>
                                 <td>{d.Hobbies}</td>
-                                <th>Update</th>
+                                <th onClick={() => handleEdit(d._id)}>✍Update</th>
                                 <td onClick={() => handleDelete(d._id)}> ❌ </td>
                             </tr>)}
                     </tbody>
