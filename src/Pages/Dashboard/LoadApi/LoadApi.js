@@ -24,7 +24,7 @@ const LoadApi = () => {
         const proceed = window.confirm('Are you sure ?')
 
         if (proceed) {
-            const url = `http://localhost:5000/allUser/${id}`
+            const url = `http://localhost:5000/deleteUser/${id}`
             fetch(url, {
                 method: "DELETE",
                 body: JSON.stringify({ id })
@@ -34,7 +34,7 @@ const LoadApi = () => {
                     console.log(data)
                     const remaining = searchResult.filter(p => p._id !== id)
                     setData(remaining)
-                })
+                },[data])
         }
     }
 
@@ -65,8 +65,9 @@ const LoadApi = () => {
                         <tr>
                             <th></th>
                             <th onClick={() => sorting("name")}>Name (sort)</th>
-                            <th onClick={() => sorting("email")}>Email(sort)</th>
                             <th>Phone</th>
+                            <th onClick={() => sorting("email")}>Email(sort)</th>
+                            <th>Hobbies</th>
                             <th>Update</th>
                             <th>Delete</th>
                         </tr>
@@ -77,8 +78,9 @@ const LoadApi = () => {
                             <tr>
                                 <th>{index + 1}</th>
                                 <th>{d.name}</th>
-                                <td>{d.email}</td>
                                 <th>{d.phone}</th>
+                                <td>{d.email}</td>
+                                <td>{d.Hobbies}</td>
                                 <th>Update</th>
                                 <td onClick={() => handleDelete(d._id)}> ❌ </td>
                             </tr>)}
